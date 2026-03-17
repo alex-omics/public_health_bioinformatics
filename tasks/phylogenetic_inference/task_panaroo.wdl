@@ -67,7 +67,7 @@ task panaroo {
     Int memory = 128                                    # GB — sized for genus-level 1500-genome datasets; Panaroo graph construction is memory-intensive
     Int cpu = 32                                        # Threads — matches PIRATE convention for large runs
     Int disk_size = 750                                 # GB — sized for combined CDS FASTAs, graph files, and alignments at scale
-    String docker_image = "us-docker.pkg.dev/general-theiagen/staphb/panaroo:1.6.0"
+    String docker_image = "staphb/panaroo:1.6.0"
   }
 
   command <<<
