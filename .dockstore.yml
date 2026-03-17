@@ -1,6 +1,6 @@
 version: 1.2
 workflows:
-  - name: Core_Gene_SNP_PHB_Panaroo_Swap
+  - name: Core_Gene_SNP_PHB_Panaroo_swap
    subclass: WDL
    primaryDescriptorPath: /workflows/phylogenetics/wf_core_gene_snp.wdl
    testParameterFiles:
