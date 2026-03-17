@@ -82,7 +82,7 @@ workflow core_gene_snp_workflow {
     Int panaroo_memory = 128
     Int panaroo_cpu = 32
     Int panaroo_disk_size = 750
-    String panaroo_docker_image = "us-docker.pkg.dev/general-theiagen/staphb/panaroo:1.6.0"
+    String panaroo_docker = "us-docker.pkg.dev/general-theiagen/staphb/panaroo:1.6.0"
 
     # -------------------------------------------------------------------------
     # Data summary optional inputs
@@ -136,7 +136,7 @@ workflow core_gene_snp_workflow {
       memory                            = panaroo_memory,
       cpu                               = panaroo_cpu,
       disk_size                         = panaroo_disk_size,
-      docker_image                      = panaroo_docker_image
+      docker_image                      = panaroo_docker
   }
 
   # -------------------------------------------------------------------------
