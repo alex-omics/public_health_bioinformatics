@@ -182,30 +182,34 @@ workflow core_gene_snp_workflow {
 
     # -------------------------------------------------------------------------
     # Pangenome SNP analysis
-    # Runs when align = true AND pan_tree = true
-    # Requires alignment_type = "pan" — pan_genome_alignment.aln must be present
+    # Runs when align = true AND pan_tree = true AND pan alignment exists
+    # Note: Panaroo may not produce pan_genome_alignment.aln even when
+    # alignment_type = "pan" (e.g. if all genes are core). The nested
+    # defined() guard prevents the workflow from crashing in that case.
     # -------------------------------------------------------------------------
     if (pan_tree) {
-      # Build maximum likelihood phylogenetic tree from pangenome alignment
-      call iqtree.iqtree as pan_iqtree {
-        input:
-          alignment    = select_first([panaroo.panaroo_pan_alignment_fasta]),
-          cluster_name = cluster_name_updated
-      }
-      # Compute pairwise SNP distance matrix from pangenome alignment
-      call snp_dists.snp_dists as pan_snp_dists {
-        input:
-          alignment    = select_first([panaroo.panaroo_pan_alignment_fasta]),
-          cluster_name = cluster_name_updated
-      }
-      # Reorder SNP matrix to match tree leaf order for visualization
-      call reorder_matrix.reorder_matrix as pan_reorder_matrix {
-        input:
-          input_tree         = pan_iqtree.ml_tree,
-          matrix             = pan_snp_dists.snp_matrix,
-          cluster_name       = cluster_name_updated + "_pan",
-          midpoint_root_tree = midpoint_root_tree,
-          phandango_coloring = phandango_coloring
+      if (defined(panaroo.panaroo_pan_alignment_fasta)) {
+        # Build maximum likelihood phylogenetic tree from pangenome alignment
+        call iqtree.iqtree as pan_iqtree {
+          input:
+            alignment    = select_first([panaroo.panaroo_pan_alignment_fasta]),
+            cluster_name = cluster_name_updated
+        }
+        # Compute pairwise SNP distance matrix from pangenome alignment
+        call snp_dists.snp_dists as pan_snp_dists {
+          input:
+            alignment    = select_first([panaroo.panaroo_pan_alignment_fasta]),
+            cluster_name = cluster_name_updated
+        }
+        # Reorder SNP matrix to match tree leaf order for visualization
+        call reorder_matrix.reorder_matrix as pan_reorder_matrix {
+          input:
+            input_tree         = pan_iqtree.ml_tree,
+            matrix             = pan_snp_dists.snp_matrix,
+            cluster_name       = cluster_name_updated + "_pan",
+            midpoint_root_tree = midpoint_root_tree,
+            phandango_coloring = phandango_coloring
+        }
       }
     }
   }
