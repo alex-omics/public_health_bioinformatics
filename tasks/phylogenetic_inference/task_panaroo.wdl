@@ -64,7 +64,7 @@ meta {
     Int memory = 128                                  
     Int cpu = 32        
     Int disk_size = 750
-    String docker_image = "staphb/panaroo:1.6.0"
+    String docker_image = "staphb/panaroo:1.7.0"
   }
 
   command <<<
